@@ -13,18 +13,10 @@ import java.sql.Statement;
 import java.util.List;
 
 public class Main extends JavaPlugin {
-	private static Main instance;
-
 	private FileConfiguration config;
-
-	public static Main getInstance() {
-		return instance;
-	}
 
 	@Override
 	public void onEnable() {
-		instance = this;
-
 		config = getConfig();
 		config.addDefault("host", "localhost:5432");
 		config.addDefault("database", "server");
