@@ -26,6 +26,7 @@ public class Main extends JavaPlugin {
 		instance = this;
 
 		config = getConfig();
+		config.addDefault("host", "localhost:5432");
 		config.addDefault("database", "server");
 		config.addDefault("user", "user");
 		config.addDefault("password", "12345");
@@ -57,7 +58,8 @@ public class Main extends JavaPlugin {
 		try {
 			Class.forName("org.postgresql.Driver");
 
-			sql = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" +
+			sql = DriverManager.getConnection("jdbc:postgresql://" +
+				config.getString("host") + "/" +
 				config.getString("database") +
 				"?user=" + config.getString("user") +
 				"&password=" + config.getString("password")
