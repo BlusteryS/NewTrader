@@ -1,0 +1,5 @@
+name: NewTrader
+main: ru.newplugin.newtrader.Main
+api-version: 1.16
+version: 1.0.0
+author: BlusteryS
