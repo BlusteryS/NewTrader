@@ -18,25 +18,32 @@ public class Main extends JavaPlugin {
 		config = getConfig();
 
 		// секция создана для возможно дальнейшего расширения конфига
-		config.addDefault("database.host", "jdbc:postgresql://localhost:5432");
+		config.addDefault("database.host", "localhost:5432");
 		config.addDefault("database.database", "server");
 		config.addDefault("database.user", "user");
 		config.addDefault("database.password", "12345");
+		config.addDefault("database.params.cachePrepStmts", true);
 		config.options().copyDefaults(true);
 
 		saveConfig();
-		initBase();
+		try {
+			initBase();
+		} catch (final ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 
 		Bukkit.getPluginManager().registerEvents(new EventListener(), this);
 	}
 
-	private void initBase() {
+	private void initBase() throws ClassNotFoundException {
+		Class.forName("org.postgresql.Driver");
+
 		ConnectionPool.init(
-			config.getString("host"),
-			config.getString("database"),
-			config.getString("user"),
-			config.getString("password"),
-			config.getConfigurationSection("params").getValues(false)
+			config.getString("database.host"),
+			config.getString("database.database"),
+			config.getString("database.user"),
+			config.getString("database.password"),
+			config.getConfigurationSection("database.params").getValues(false)
 		);
 
 		// try-with-resources автоматически закрывает соединение

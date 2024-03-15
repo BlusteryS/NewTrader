@@ -18,7 +18,7 @@ public class ConnectionPool {
 		final Map<String, Object> params
 	) {
 		final HikariConfig config = new HikariConfig();
-		config.setJdbcUrl(host + "/" + database);
+		config.setJdbcUrl("jdbc:postgresql://" + host + "/" + database);
 		config.setUsername(user);
 		config.setPassword(password);
 		params.forEach((key, value) -> config.addDataSourceProperty(key, value.toString()));
