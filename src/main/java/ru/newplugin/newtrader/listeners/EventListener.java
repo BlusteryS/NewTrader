@@ -4,11 +4,11 @@ import io.papermc.paper.event.player.PlayerTradeEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.AbstractVillager;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.WanderingTrader;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.VillagerCareerChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import ru.newplugin.newtrader.db.Base;
@@ -17,16 +17,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class EventListener implements Listener {
-	@EventHandler(priority = EventPriority.LOW)
-	public void onVillagerSpawn(final CreatureSpawnEvent event) {
-		if (event.getEntity() instanceof final AbstractVillager villager) {
+	@EventHandler
+	public void onCreatureSpawn(final CreatureSpawnEvent event) {
+		if (event.getEntity() instanceof final WanderingTrader villager) {
 			addCustomRecipes(villager);
 		}
-	}
-
-	@EventHandler(priority = EventPriority.LOW)
-	public void onProfessionChange(final VillagerCareerChangeEvent event) {
-		addCustomRecipes(event.getEntity());
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
@@ -45,7 +40,7 @@ public class EventListener implements Listener {
 				return;
 			}
 
-			Base.add(player.getName(), uuid, "count", result.getAmount());
+			Base.add(uuid, player.getName(), "count", result.getAmount());
 		});
 	}
 
