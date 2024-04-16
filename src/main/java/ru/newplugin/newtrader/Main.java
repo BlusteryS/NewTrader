@@ -46,9 +46,10 @@ public class Main extends JavaPlugin {
 			config.getConfigurationSection("database.params").getValues(false)
 		);
 
-		// try-with-resources автоматически закрывает соединение
-		try (final Connection conn = ConnectionPool.getConnection()) {
-			final Statement stmt = conn.createStatement();
+		try (
+			final Connection conn = ConnectionPool.getConnection();
+			final Statement stmt = conn.createStatement()
+		) {
 			stmt.executeUpdate("""
 				CREATE TABLE IF NOT EXISTS users (
 					villager VARCHAR(36) NOT NULL,
@@ -56,7 +57,6 @@ public class Main extends JavaPlugin {
 					count INT DEFAULT 1 NOT NULL
 				)"""
 			);
-			stmt.close();
 		} catch (final SQLException error) {
 			error.printStackTrace();
 		}
